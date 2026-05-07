@@ -74,6 +74,11 @@ class Command(BaseCommand):
                 'in_stock': product_data['in_stock']
             }
 
+            image_urls = product_data.get('image_urls', [])
+            if image_urls:
+                filename = image_urls[0].split('/')[-1].split('?')[0]
+                product_fields['image'] = f'products/{filename}'
+
             # Create or update product
             product, created = Product.objects.update_or_create(
                 name=product_data['name'],
