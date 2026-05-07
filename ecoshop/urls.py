@@ -18,8 +18,26 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse
+from django.db import connection
+
+
+def health_check(request):
+    try:
+        connection.ensure_connection()
+        db_status = "ok"
+    except Exception as e:
+        db_status = str(e)
+
+    status = "ok" if db_status == "ok" else "degraded"
+    return JsonResponse(
+        {"status": status, "database": db_status},
+        status=200 if status == "ok" else 503,
+    )
+
 
 urlpatterns = [
+    path("health/", health_check, name="health_check"),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("orders/", include("orders.urls")),
