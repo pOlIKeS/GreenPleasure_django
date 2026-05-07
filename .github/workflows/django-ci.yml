@@ -105,3 +105,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/greenpleasure:latest
             ${{ secrets.DOCKER_USERNAME }}/greenpleasure:${{ github.sha }}
+
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Trigger Railway deploy
+        run: curl --fail -X POST "${{ secrets.RAILWAY_DEPLOY_HOOK }}"
