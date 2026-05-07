@@ -55,7 +55,9 @@ class Command(BaseCommand):
             category = categories.get(category_slug)
             
             if not category:
-                self.stdout.write(self.style.WARNING(f'Skipping product "{product_data["name"]}" - unknown category "{category_slug}"'))
+                self.stdout.write(self.style.WARNING(
+                    f'Skipping product "{product_data["name"]}" - unknown category "{category_slug}"'
+                ))
                 continue
 
             # Prepare product data

@@ -1,0 +1,18 @@
+[flake8]
+max-line-length = 120
+exclude =
+    migrations,
+    venv,
+    .venv,
+    .git,
+    __pycache__,
+    download_images.py,
+    update_slugs.py
+# W293 - whitespace on blank lines (cosmetic)
+# W292 - no newline at end of file (cosmetic)
+# E302 - expected 2 blank lines (style preference)
+# E303 - too many blank lines (style preference)
+# E305 - expected 2 blank lines after function/class (style preference)
+ignore = W293,W292,E302,E303,E305
+per-file-ignores =
+    ecoshop/settings.py:E501

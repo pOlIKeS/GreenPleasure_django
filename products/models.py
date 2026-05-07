@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
 import re
 
 class Supplier(models.Model):
@@ -73,7 +72,10 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
-    supplier = models.ForeignKey('Supplier', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Поставщик", related_name='products')
+    supplier = models.ForeignKey(
+        'Supplier', on_delete=models.SET_NULL, null=True, blank=True,
+        verbose_name="Поставщик", related_name='products'
+    )
     name = models.CharField(max_length=200, verbose_name="Название")
     slug = models.SlugField(max_length=200, unique=True, verbose_name="URL")
     image = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name="Изображение")

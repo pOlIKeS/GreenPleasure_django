@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Order, OrderItem
 from products.models import Product
 from .mixins import LoginRequiredMixinWithMessage
@@ -81,7 +80,8 @@ def checkout(request):
         
         if not phone or not address:
             messages.error(request, 'Пожалуйста, заполните все поля!')
-            return render(request, 'orders/checkout.html', {'phone': phone, 'address': address, 'total_price': total_price})
+            ctx = {'phone': phone, 'address': address, 'total_price': total_price}
+            return render(request, 'orders/checkout.html', ctx)
         
         # Create order
         order = Order.objects.create(

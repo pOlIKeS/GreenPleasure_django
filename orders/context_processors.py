@@ -1,5 +1,3 @@
-from products.models import Product
-
 def cart_context_processor(request):
     cart = request.session.get('cart', {})
     cart_count = sum(item['quantity'] for item in cart.values())

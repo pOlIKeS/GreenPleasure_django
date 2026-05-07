@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import CreateView, DetailView, UpdateView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -59,7 +58,7 @@ class CustomLogoutView(View):
         return HttpResponseRedirect(reverse('products:product_list'))
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'accounts/profile.html'
     context_object_name = 'user'
